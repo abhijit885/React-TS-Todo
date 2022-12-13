@@ -10,10 +10,10 @@ interface Props {
 const TodoList: React.FC<Props> = ({ todoArray, setTodoArray }) => {
   return (
     <div className="todos">
-      {todoArray.map((val) => (
+      {todoArray.map((todo) => (
         <SingleTodo
-          val={val}
-          key={val.id}
+          todo={todo}
+          key={todo.id}
           todoArray={todoArray}
           setTodoArray={setTodoArray}
         />

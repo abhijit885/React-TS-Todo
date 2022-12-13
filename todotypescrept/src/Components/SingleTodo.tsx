@@ -5,27 +5,27 @@ import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
 import TodoList from "./TodoList";
 type Props = {
-  val: Todo;
+  todo: Todo;
   todoArray: Todo[];
   setTodoArray: React.Dispatch<React.SetStateAction<Todo[]>>;
 };
-const SingleTodo: React.FC<Props> = ({ val, todoArray, setTodoArray }) => {
+const SingleTodo: React.FC<Props> = ({ todo, todoArray, setTodoArray }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editTodo, setEditTodo] = useState<string>(val.todo);
+  const [editTodo, setEditTodo] = useState<string>(todo.todo);
 
   const handleDelete = (id: number) => {
-    setTodoArray(todoArray.filter((val) => val.id !== id));
+    setTodoArray(todoArray.filter((todo) => todo.id !== id));
   };
 
   const handleDone = (id: number) => {
     setTodoArray(
-      todoArray.map((val) =>
-        val.id === id
+      todoArray.map((todo) =>
+        todo.id === id
           ? {
-              ...val,
-              isDone: !val.isDone,
+              ...todo,
+              isDone: !todo.isDone,
             }
-          : val
+          : todo
       )
     );
   };
@@ -33,13 +33,13 @@ const SingleTodo: React.FC<Props> = ({ val, todoArray, setTodoArray }) => {
   const handleEdit = (e: React.FormEvent, id: number) => {
     e.preventDefault();
     setTodoArray(
-      todoArray.map((val) =>
-        val.id === id
+      todoArray.map((todo) =>
+        todo.id === id
           ? {
-              ...val,
-              val: editTodo,
+              ...todo,
+              todo: editTodo,
             }
-          : val
+          : todo
       )
     );
     setEdit(false);
@@ -52,7 +52,7 @@ const SingleTodo: React.FC<Props> = ({ val, todoArray, setTodoArray }) => {
   }, [edit]);
 
   return (
-    <form className="todos__single" onSubmit={(e) => handleEdit(e, val.id)}>
+    <form className="todos__single" onSubmit={(e) => handleEdit(e, todo.id)}>
       {edit ? (
         <input
           ref={inputRef}
@@ -60,26 +60,26 @@ const SingleTodo: React.FC<Props> = ({ val, todoArray, setTodoArray }) => {
           onChange={(e) => setEditTodo(e.target.value)}
           className="todos__single--text"
         />
-      ) : val.isDone ? (
-        <s className="todos__single--text">{val.todo}</s>
+      ) : todo.isDone ? (
+        <s className="todos__single--text">{todo.todo}</s>
       ) : (
-        <span className="todos__single--text">{val.todo}</span>
+        <span className="todos__single--text">{todo.todo}</span>
       )}
       <div>
         <span
           className="icon"
           onClick={() => {
-            if (!edit && !val.isDone) {
+            if (!edit && !todo.isDone) {
               setEdit(!edit);
             }
           }}
         >
           <AiFillEdit />
         </span>
-        <span className="icon" onClick={() => handleDelete(val.id)}>
+        <span className="icon" onClick={() => handleDelete(todo.id)}>
           <AiFillDelete />
         </span>
-        <span className="icon" onClick={() => handleDone(val.id)}>
+        <span className="icon" onClick={() => handleDone(todo.id)}>
           <MdDone />
         </span>
       </div>
